@@ -12,11 +12,6 @@ namespace Soul.Excel
     {
         public List<ExcelDataTable> Tables { get; } = new List<ExcelDataTable>();
 
-        public ExcelDocument()
-        {
-
-        }
-
         #region Wirte
         public void Wirte(string file, bool isXlsx = false)
         {
