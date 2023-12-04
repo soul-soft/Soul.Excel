@@ -9,7 +9,7 @@ namespace Soul.Excel
 
         public Type DataType { get; set; }
 
-        public int? Width { get; set; }
+        public int? Width { get; set; } = 8;
 
         public string DataFormat { get; set; }
 

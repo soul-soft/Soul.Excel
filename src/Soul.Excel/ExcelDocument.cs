@@ -142,16 +142,15 @@ namespace Soul.Excel
 
         private void SetCellValue(ExcelDataColumn column, ICell cell, object value)
         {
-            if (value == null && column.DefaultValue == null)
-            {
-                cell.SetBlank();
-
-            }
-            else if (value == null && column.DefaultValue != null)
+            if (value == null && column.DefaultValue != null)
             {
                 value = column.DefaultValue;
             }
-            if (value.GetType() == typeof(DateTime?))
+            if (value == null)
+            {
+                cell.SetBlank();
+            }
+            else if (value.GetType() == typeof(DateTime?))
             {
                 var data = (DateTime?)value;
                 cell.SetCellValue(data.Value);
