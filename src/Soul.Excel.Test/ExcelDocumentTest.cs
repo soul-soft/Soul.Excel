@@ -33,6 +33,7 @@
             });
             table.Headers.Add(row =>
             {
+                //合并单元格
                 row.Add("基本信息", colSpan: 3);
                 row.Add("文科成绩", colSpan: 2);
                 row.Add("理科成绩", colSpan: 2);
@@ -40,16 +41,23 @@
             table.Columns.Add("姓名", o =>
             {
                 o.Alignment = ExcelAlignment.Left;
+                //自动换行
+                o.WrapText = true;
             });
             table.Columns.Add("生日", o =>
             {
+                //固定宽度
                 o.Width = 8;
                 o.DataFormat = "yyyy-MM-dd";
             });
             table.Columns.Add("性别");
             table.Columns.Add("语文", o =>
             {
+                //默认值
+                o.DefaultValue = 0;
+                //数据格式化
                 o.DataFormat = "#.00";
+                //对齐
                 o.Alignment = ExcelAlignment.Right;
             });
             table.Columns.Add("英语", o =>
