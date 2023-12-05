@@ -10,6 +10,8 @@ namespace Soul.Excel
 
         public ExcelHeaderCollection Headers { get; } = new ExcelHeaderCollection();
 
+        public ExcelHeaderCollection Footers { get; } = new ExcelHeaderCollection();
+
         public ExcelDataColumnCollection Columns { get; } = new ExcelDataColumnCollection();
 
         public ExcelDataRowCollection Rows { get; } = new ExcelDataRowCollection();

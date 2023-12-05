@@ -9,6 +9,7 @@
 		<PackageTags>Excel;NPOI</PackageTags>
 		<RepositoryUrl>https://github.com/soul-soft/Soul.SqlBatis</RepositoryUrl>
 		<PackageProjectUrl>https://github.com/soul-soft/Soul.SqlBatis</PackageProjectUrl>
+		<Description>支持表头表脚，多表格，表结构克隆，合并单元格、固定宽度，对齐方式等。</Description>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -2,7 +2,7 @@
 {
     public class ExcelDataInfo<T>
     {
-        public T Data { get; }
+        public T Data { get; internal set; }
         public int RowSpan { get; set; } = 1;
         public int ColSpan { get; set; } = 1;
 

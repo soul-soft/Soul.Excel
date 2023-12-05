@@ -15,10 +15,9 @@ namespace Soul.Excel
         #region Wirte
         public void Wirte(string file, bool isXlsx = false)
         {
-            using (var fs = new FileStream(file, FileMode.Open))
+            using (var fs = new FileStream(file, FileMode.Create))
             {
                 Wirte(fs, isXlsx);
-
             }
         }
 
@@ -113,7 +112,7 @@ namespace Soul.Excel
                 foreach (var column in table.Columns)
                 {
                     var data = dataRow.GetDataInfo(column.Name);
-                    for (var i = cellIndex; i < cellIndex + data.ColSpan; i++)
+                    for (var i = cellIndex; i < table.Columns.Count; i++)
                     {
                         var cell = row.CreateCell(i);
                         SetCellValue(column, cell, data.Data);
@@ -129,6 +128,26 @@ namespace Soul.Excel
                 }
                 rowIndex++;
             }
+            foreach (var header in table.Footers)
+            {
+                var cellIndex = 0;
+                var row = sheet.CreateRow(sheet.PhysicalNumberOfRows);
+                foreach (var item in header.Items)
+                {
+                    for (var i = cellIndex; i < cellIndex + item.ColSpan; i++)
+                    {
+                        var cell = row.CreateCell(i);
+                        cell.SetCellValue(item.Data);
+                        cell.CellStyle = styles.CenterStyle;
+                    }
+                    if (item.ColSpan > 1 || item.RowSpan > 1)
+                    {
+                        AddMergedRegion(sheet, rowIndex, rowIndex + item.RowSpan - 1, cellIndex, cellIndex + item.ColSpan - 1);
+                    }
+                    cellIndex += item.ColSpan;
+                }
+                rowIndex++;
+            }
         }
 
         private void AddMergedRegion(ISheet sheet, int firstRow, int lastRow, int firstCol, int lastCol)
@@ -136,7 +155,7 @@ namespace Soul.Excel
             var rangeAddress = new NPOI.SS.Util.CellRangeAddress(firstRow, lastRow, firstCol, lastCol);
             if (!sheet.MergedRegions.Any(a => a.FirstColumn <= rangeAddress.FirstColumn && a.LastColumn >= rangeAddress.LastColumn && a.FirstRow <= rangeAddress.FirstRow && a.LastRow >= rangeAddress.LastRow))
             {
-                sheet.AddMergedRegion(rangeAddress);
+                sheet.AddMergedRegionUnsafe(rangeAddress);
             }
         }
 
@@ -296,8 +315,7 @@ namespace Soul.Excel
                 TitleStyle.VerticalAlignment = VerticalAlignment.Center;
                 TitleStyle.SetFont(font2);
             }
-
-
+            
             public static void InitStyle(ICellStyle style)
             {
                 style.BorderBottom = BorderStyle.Thin;

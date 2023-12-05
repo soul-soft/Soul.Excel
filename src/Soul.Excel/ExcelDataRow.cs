@@ -15,6 +15,10 @@ namespace Soul.Excel
         internal ExcelDataRow(ExcelDataTable table)
         {
             Table = table;
+            foreach (var item in Table.Columns)
+            {
+                SetValue(item.Name, null);
+            }
         }
 
         public void SetValue(string name, object value, int rowSpan = 1, int colSpan = 1)
@@ -22,11 +26,14 @@ namespace Soul.Excel
             var column = Table.Columns.Where(a => a.Name == name).FirstOrDefault();
             if (column == null)
             {
-                throw new InvalidOperationException($"字段‘{name}’不存在");
+                throw new InvalidOperationException($"Column not found:\"{name}\"");
             }
             if (_items.ContainsKey(name))
             {
-                _items[name] = new ExcelDataInfo<object>(value);
+                var item = _items[name];
+                item.Data = value;
+                item.RowSpan = rowSpan;
+                item.ColSpan = colSpan;
             }
             else
             {
@@ -70,7 +77,7 @@ namespace Soul.Excel
             }
             return Convert.ToDouble(data);
         }
-    
+
         public double? GetDoubleNullable(string name)
         {
             var data = this[name];

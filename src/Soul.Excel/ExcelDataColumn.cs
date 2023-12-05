@@ -15,6 +15,8 @@ namespace Soul.Excel
 
         public object DefaultValue { get; set; }
 
+        public bool WrapText { get; set; } = false;
+
         public ExcelAlignment? Alignment { get; set; }
 
         public ExcelDataColumn(string name)
@@ -49,6 +51,7 @@ namespace Soul.Excel
                     cellStyle.Alignment = HorizontalAlignment.Center;
                     cellStyle.VerticalAlignment = VerticalAlignment.Center;
                 }
+                cellStyle.WrapText = WrapText;
                 _dataStyle = cellStyle;
             }
             return _dataStyle;
