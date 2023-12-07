@@ -118,7 +118,7 @@ namespace Soul.Excel
             return (DateTime?)data;
         }
 
-        public DateTime? ParseExactDateTime(string name, string format = "yyyy-MM-dd HH:mm:ss")
+        public DateTime? GetExactDateTime(string name, string format = "yyyy-MM-dd")
         {
             var data = GetString(name);
             if (data == null)
@@ -126,6 +126,17 @@ namespace Soul.Excel
                 return null;
             }
             return DateTime.ParseExact(data, format, System.Globalization.CultureInfo.CurrentCulture);
+        }
+
+        public object GetValue(string name)
+        {
+            return this[name];
+        }
+
+        public bool IsNullOrEmpty(string name)
+        {
+            var value = GetString(name);
+            return string.IsNullOrEmpty(value);
         }
     }
 }
