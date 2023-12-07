@@ -67,6 +67,26 @@ namespace Soul.Excel
             }
             return data.ToString();
         }
+       
+        public int GetInt32(string name)
+        {
+            var data = this[name];
+            if (data == null)
+            {
+                return 0;
+            }
+            return Convert.ToInt32(data);
+        }
+
+        public long GetInt64(string name)
+        {
+            var data = this[name];
+            if (data == null)
+            {
+                return 0;
+            }
+            return Convert.ToInt64(data);
+        }
 
         public double GetDouble(string name)
         {
@@ -78,32 +98,12 @@ namespace Soul.Excel
             return Convert.ToDouble(data);
         }
 
-        public double? GetDoubleNullable(string name)
-        {
-            var data = this[name];
-            if (data == null)
-            {
-                return null;
-            }
-            return Convert.ToDouble(data);
-        }
-
         public decimal GetDecimal(string name)
         {
             var data = this[name];
             if (data == null)
             {
                 return 0;
-            }
-            return Convert.ToDecimal(data);
-        }
-
-        public decimal? GetDecimalNullable(string name)
-        {
-            var data = this[name];
-            if (data == null)
-            {
-                return null;
             }
             return Convert.ToDecimal(data);
         }
