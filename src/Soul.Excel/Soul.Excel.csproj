@@ -2,14 +2,14 @@
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
-		<Version>1.0.4</Version>
+		<Version>1.0.5</Version>
 		<Copyright>MIT</Copyright>
 		<RepositoryType>git</RepositoryType>
 		<PackageIcon>soul.png</PackageIcon>
 		<PackageTags>Excel;NPOI</PackageTags>
 		<RepositoryUrl>https://github.com/soul-soft/Soul.Excel</RepositoryUrl>
 		<PackageProjectUrl>https://github.com/soul-soft/Soul.Excel</PackageProjectUrl>
-		<Description>支持表头表脚，多表格，表结构克隆，合并单元格、固定宽度，对齐方式等。</Description>
+		<Description>支持表头表脚，多表格，表结构克隆，合并单元格、固定宽度，对齐方式等，自定义样式。</Description>
 	</PropertyGroup>
 
 	<ItemGroup>
