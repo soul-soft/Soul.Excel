@@ -8,7 +8,7 @@ namespace Soul.Excel
     {
         public ExcelDataTable Table { get; }
 
-        private Dictionary<string, ExcelDataInfo<object>> _items = new Dictionary<string, ExcelDataInfo<object>>();
+        private Dictionary<string, ExcelColumnDataEntry> _items = new Dictionary<string, ExcelColumnDataEntry>();
 
         public object[] ItemArray => _items.Values.Select(s => s.Data).ToArray();
 
@@ -37,11 +37,11 @@ namespace Soul.Excel
             }
             else
             {
-                _items.Add(name, new ExcelDataInfo<object>(value, rowSpan, colSpan));
+                _items.Add(name, new ExcelColumnDataEntry(value, rowSpan, colSpan));
             }
         }
 
-        internal ExcelDataInfo<object> GetDataInfo(string name)
+        internal ExcelColumnDataEntry GetDataInfo(string name)
         {
             return _items[name];
         }
@@ -67,7 +67,7 @@ namespace Soul.Excel
             }
             return data.ToString();
         }
-       
+
         public int GetInt32(string name)
         {
             var data = this[name];

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Soul.Excel
+﻿namespace Soul.Excel
 {
     public class ExcelDataTable
     {

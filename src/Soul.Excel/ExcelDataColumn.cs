@@ -26,7 +26,7 @@ namespace Soul.Excel
        
         private ICellStyle _dataStyle;
 
-        internal ICellStyle GetDataStyle(IWorkbook book)
+        internal ICellStyle GetStyle(IWorkbook book)
         {
             if (_dataStyle == null)
             {

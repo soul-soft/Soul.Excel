@@ -72,13 +72,19 @@ namespace Soul.Excel
             {
                 var cellIndex = 0;
                 var row = sheet.CreateRow(sheet.PhysicalNumberOfRows);
+                if (header.Height != null)
+                {
+                    row.Height = header.Height.Value;
+                }
                 foreach (var item in header.Items)
                 {
                     for (var i = cellIndex; i < cellIndex + item.ColSpan; i++)
                     {
                         var cell = row.CreateCell(i);
-                        cell.SetCellValue(item.Data);
-                        cell.CellStyle = styles.CenterStyle;
+                        cell.SetCellValue(item.Name);
+                        var style = item.GetStyle(sheet.Workbook);
+                        DefaultExcelStyles.InitStyle(style);
+                        cell.CellStyle = style;
                     }
                     if (item.ColSpan > 1 || item.RowSpan > 1)
                     {
@@ -116,7 +122,7 @@ namespace Soul.Excel
                     {
                         var cell = row.CreateCell(i);
                         SetCellValue(column, cell, data.Data);
-                        var style = column.GetDataStyle(sheet.Workbook);
+                        var style = column.GetStyle(sheet.Workbook);
                         DefaultExcelStyles.InitStyle(style);
                         cell.CellStyle = style;
                     }
@@ -137,8 +143,10 @@ namespace Soul.Excel
                     for (var i = cellIndex; i < cellIndex + item.ColSpan; i++)
                     {
                         var cell = row.CreateCell(i);
-                        cell.SetCellValue(item.Data);
-                        cell.CellStyle = styles.CenterStyle;
+                        cell.SetCellValue(item.Name);
+                        var style = item.GetStyle(sheet.Workbook);
+                        DefaultExcelStyles.InitStyle(style);
+                        cell.CellStyle = style;
                     }
                     if (item.ColSpan > 1 || item.RowSpan > 1)
                     {
@@ -308,7 +316,7 @@ namespace Soul.Excel
 
                 var font2 = book.CreateFont();
                 font2.IsBold = true;
-                font2.FontHeight = 400;
+                font2.FontHeight = 350;
                 TitleStyle = book.CreateCellStyle();
                 InitStyle(TitleStyle);
                 TitleStyle.Alignment = HorizontalAlignment.Center;
@@ -322,6 +330,7 @@ namespace Soul.Excel
                 style.BorderTop = BorderStyle.Thin;
                 style.BorderLeft = BorderStyle.Thin;
                 style.BorderRight = BorderStyle.Thin;
+                style.WrapText = true;
             }
         }
         #endregion

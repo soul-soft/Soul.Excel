@@ -1,17 +1,17 @@
 ﻿namespace Soul.Excel
 {
-    public class ExcelDataInfo<T>
+    public class ExcelColumnDataEntry
     {
-        public T Data { get; internal set; }
+        public object Data { get; internal set; }
         public int RowSpan { get; set; } = 1;
         public int ColSpan { get; set; } = 1;
-
-        public ExcelDataInfo(T name)
+       
+        public ExcelColumnDataEntry(object name)
         {
             Data = name;
         }
 
-        public ExcelDataInfo(T name, int rowSpan = 1, int colSpan = 1)
+        public ExcelColumnDataEntry(object name, int rowSpan = 1, int colSpan = 1)
         {
             Data = name;
             RowSpan = rowSpan;
