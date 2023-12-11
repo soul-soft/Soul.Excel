@@ -69,7 +69,7 @@ namespace Soul.Excel
                 style.WrapText = WrapText;
                 var font = book.CreateFont();
                 font.IsBold = true;
-                font.FontHeight = 350;
+                font.FontHeight = 200;
                 style.SetFont(font);
                 _style = style;
             }

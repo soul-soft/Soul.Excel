@@ -316,7 +316,7 @@ namespace Soul.Excel
 
                 var font2 = book.CreateFont();
                 font2.IsBold = true;
-                font2.FontHeight = 400;
+                font2.FontHeight = 350;
                 TitleStyle = book.CreateCellStyle();
                 InitStyle(TitleStyle);
                 TitleStyle.Alignment = HorizontalAlignment.Center;
