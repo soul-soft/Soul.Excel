@@ -99,7 +99,7 @@ internal class ExcelDocumentTest
         document.Tables.Add(table1);
         using (var fs = new FileStream(file, FileMode.OpenOrCreate))
         {
-            document.Wirte(fs);
+            ExcelWriter.Wirte(fs, true, table, table1);
         }
     }
 }
