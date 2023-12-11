@@ -102,7 +102,7 @@ namespace Soul.Excel
                 {
                     var cell = row.CreateCell(row.PhysicalNumberOfCells);
                     cell.SetCellValue(item.Name);
-                    cell.CellStyle = styles.CenterStyle;
+                    cell.CellStyle = styles.ColumnStyle;
                     if (item.Width != null)
                     {
                         cell.Sheet.SetColumnWidth(cellIndex, item.Width.Value * 500);
@@ -300,7 +300,7 @@ namespace Soul.Excel
         #region Utilities
         class DefaultExcelStyles
         {
-            public ICellStyle CenterStyle { get; }
+            public ICellStyle ColumnStyle { get; }
 
             public ICellStyle TitleStyle { get; }
 
@@ -308,15 +308,15 @@ namespace Soul.Excel
             {
                 var font1 = book.CreateFont();
                 font1.IsBold = true;
-                CenterStyle = book.CreateCellStyle();
-                InitStyle(CenterStyle);
-                CenterStyle.Alignment = HorizontalAlignment.Center;
-                CenterStyle.VerticalAlignment = VerticalAlignment.Center;
-                CenterStyle.SetFont(font1);
+                ColumnStyle = book.CreateCellStyle();
+                InitStyle(ColumnStyle);
+                ColumnStyle.Alignment = HorizontalAlignment.Center;
+                ColumnStyle.VerticalAlignment = VerticalAlignment.Center;
+                ColumnStyle.SetFont(font1);
 
                 var font2 = book.CreateFont();
                 font2.IsBold = true;
-                font2.FontHeight = 350;
+                font2.FontHeight = 400;
                 TitleStyle = book.CreateCellStyle();
                 InitStyle(TitleStyle);
                 TitleStyle.Alignment = HorizontalAlignment.Center;

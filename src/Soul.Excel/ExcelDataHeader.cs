@@ -45,13 +45,6 @@ namespace Soul.Excel
 
         private ICellStyle _style;
 
-        private Action<ICellStyle, IFont> _styleConfigure;
-
-        public void ConfigureStyle(Action<ICellStyle, IFont> configure)
-        {
-            _styleConfigure = configure;
-        }
-
         internal ICellStyle GetStyle(IWorkbook book)
         {
             if (_style == null)
@@ -75,10 +68,8 @@ namespace Soul.Excel
                 }
                 style.WrapText = WrapText;
                 var font = book.CreateFont();
-                if (_styleConfigure != null)
-                {
-                    _styleConfigure(style, font);
-                }
+                font.IsBold = true;
+                font.FontHeight = 350;
                 style.SetFont(font);
                 _style = style;
             }
