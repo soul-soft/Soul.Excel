@@ -250,9 +250,13 @@ namespace Soul.Excel
                 var dataRow = table.NewRow();
                 foreach (var item in table.Columns)
                 {
-                    if (columnIndex < row.PhysicalNumberOfCells)
+                    var cell = row.Cells.Where(c => c.ColumnIndex == columnIndex).FirstOrDefault();
+                    if (cell == null)
                     {
-                        var cell = row.GetCell(columnIndex);
+                        dataRow[item.Name] = null;
+                    }
+                    else
+                    {
                         var value = GetCellValue(cell);
                         dataRow[item.Name] = value;
                     }

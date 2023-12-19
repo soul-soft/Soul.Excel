@@ -17,5 +17,10 @@
             RowSpan = rowSpan;
             ColSpan = colSpan;
         }
+
+        public override string ToString()
+        {
+            return Data?.ToString();
+        }
     }
 }
