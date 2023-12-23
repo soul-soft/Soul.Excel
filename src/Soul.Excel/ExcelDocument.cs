@@ -26,11 +26,11 @@ namespace Soul.Excel
             IWorkbook document;
             if (isXlsx)
             {
-                document = new XSSFWorkbook();
+                document = new HSSFWorkbook();
             }
             else
             {
-                document = new HSSFWorkbook();
+                document = new XSSFWorkbook();
             }
             var defaultStyles = new DefaultExcelStyles(document);
             foreach (var item in Tables)
@@ -225,11 +225,11 @@ namespace Soul.Excel
             IWorkbook document;
             if (options.IsXlsx)
             {
-                document = new XSSFWorkbook(stream);
+                document = new HSSFWorkbook(stream);
             }
             else
             {
-                document = new HSSFWorkbook(stream);
+                document = new XSSFWorkbook(stream);
             }
             var table = new ExcelDataTable();
             var sheet = document.GetSheetAt(options.SheetIndex);
