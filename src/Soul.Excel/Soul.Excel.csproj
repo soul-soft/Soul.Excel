@@ -13,7 +13,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="NPOI" Version="2.6.2" />
+		<PackageReference Include="NPOI" Version="2.4.1" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Update="soul.png">

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
+using NPOI.SS.Util;
+using NPOI.XSSF.UserModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using NPOI.HSSF.UserModel;
-using NPOI.SS.UserModel;
-using NPOI.XSSF.UserModel;
 
 namespace Soul.Excel
 {
@@ -64,6 +65,7 @@ namespace Soul.Excel
 
         private void WriteTable(ExcelDataTable table, ISheet sheet, DefaultExcelStyles styles)
         {
+            var rangeAddresses = new List<CellRangeAddress>();
             var rowIndex = sheet.PhysicalNumberOfRows;
             if (!string.IsNullOrEmpty(table.Title))
             {
@@ -74,7 +76,7 @@ namespace Soul.Excel
                     cell.SetCellValue(table.Title);
                     cell.CellStyle = styles.TitleStyle;
                 }
-                AddMergedRegion(sheet, rowIndex, rowIndex, 0, table.Columns.Count - 1);
+                AddMergedRegion(sheet, rangeAddresses, rowIndex, rowIndex, 0, table.Columns.Count - 1);
                 rowIndex++;
             }
             foreach (var header in table.Headers)
@@ -97,7 +99,7 @@ namespace Soul.Excel
                     }
                     if (item.ColSpan > 1 || item.RowSpan > 1)
                     {
-                        AddMergedRegion(sheet, rowIndex, rowIndex + item.RowSpan - 1, cellIndex, cellIndex + item.ColSpan - 1);
+                        AddMergedRegion(sheet, rangeAddresses, rowIndex, rowIndex + item.RowSpan - 1, cellIndex, cellIndex + item.ColSpan - 1);
                     }
                     cellIndex += item.ColSpan;
                 }
@@ -137,7 +139,7 @@ namespace Soul.Excel
                     }
                     if (data.ColSpan > 1 || data.RowSpan > 1)
                     {
-                        AddMergedRegion(sheet, rowIndex, rowIndex + data.RowSpan - 1, cellIndex, cellIndex + data.ColSpan - 1);
+                        AddMergedRegion(sheet, rangeAddresses, rowIndex, rowIndex + data.RowSpan - 1, cellIndex, cellIndex + data.ColSpan - 1);
                     }
                     cellIndex += data.ColSpan;
                 }
@@ -159,7 +161,7 @@ namespace Soul.Excel
                     }
                     if (item.ColSpan > 1 || item.RowSpan > 1)
                     {
-                        AddMergedRegion(sheet, rowIndex, rowIndex + item.RowSpan - 1, cellIndex, cellIndex + item.ColSpan - 1);
+                        AddMergedRegion(sheet, rangeAddresses, rowIndex, rowIndex + item.RowSpan - 1, cellIndex, cellIndex + item.ColSpan - 1);
                     }
                     cellIndex += item.ColSpan;
                 }
@@ -167,12 +169,13 @@ namespace Soul.Excel
             }
         }
 
-        private void AddMergedRegion(ISheet sheet, int firstRow, int lastRow, int firstCol, int lastCol)
+        private void AddMergedRegion(ISheet sheet, List<CellRangeAddress> rangeAddresses,int firstRow, int lastRow, int firstCol, int lastCol)
         {
-            var rangeAddress = new NPOI.SS.Util.CellRangeAddress(firstRow, lastRow, firstCol, lastCol);
-            if (!sheet.MergedRegions.Any(a => a.FirstColumn <= rangeAddress.FirstColumn && a.LastColumn >= rangeAddress.LastColumn && a.FirstRow <= rangeAddress.FirstRow && a.LastRow >= rangeAddress.LastRow))
+            var rangeAddress = new CellRangeAddress(firstRow, lastRow, firstCol, lastCol);
+            if (!rangeAddresses.Any(a => a.FirstColumn <= rangeAddress.FirstColumn && a.LastColumn >= rangeAddress.LastColumn && a.FirstRow <= rangeAddress.FirstRow && a.LastRow >= rangeAddress.LastRow))
             {
-                sheet.AddMergedRegionUnsafe(rangeAddress);
+                rangeAddresses.Add(rangeAddress);
+                sheet.AddMergedRegion(rangeAddress);
             }
         }
 
@@ -184,7 +187,7 @@ namespace Soul.Excel
             }
             if (value == null)
             {
-                cell.SetBlank();
+                cell.SetCellValue(string.Empty);
             }
             else if (value.GetType() == typeof(DateTime?))
             {
@@ -313,6 +316,7 @@ namespace Soul.Excel
             {
                 var font1 = book.CreateFont();
                 font1.IsBold = true;
+                font1.FontHeight = 200;
                 ColumnStyle = book.CreateCellStyle();
                 InitStyle(ColumnStyle);
                 ColumnStyle.Alignment = HorizontalAlignment.Center;
