@@ -13,6 +13,25 @@ namespace Soul.Excel
         public List<ExcelDataTable> Tables { get; } = new List<ExcelDataTable>();
 
         #region Wirte
+        private IWorkbook OpenWorkbook(bool isXlsx,Stream stream)
+        {
+            try
+            {
+                if (isXlsx)
+                {
+                    return new HSSFWorkbook(stream);
+                }
+                return new XSSFWorkbook(stream);
+            }
+            catch (Exception)
+            {
+                if (isXlsx)
+                {
+                    return new XSSFWorkbook(stream);
+                }
+                return new HSSFWorkbook(stream);
+            }
+        }
         public void Wirte(string file, bool isXlsx = false)
         {
             using (var fs = new FileStream(file, FileMode.Create))
@@ -222,15 +241,7 @@ namespace Soul.Excel
         {
             var options = new ExcelReaderOptions();
             configure(options);
-            IWorkbook document;
-            if (options.IsXlsx)
-            {
-                document = new HSSFWorkbook(stream);
-            }
-            else
-            {
-                document = new XSSFWorkbook(stream);
-            }
+            IWorkbook document = OpenWorkbook(options.IsXlsx, stream);            
             var table = new ExcelDataTable();
             var sheet = document.GetSheetAt(options.SheetIndex);
             var columnRow = sheet.GetRow(options.RowIndex);
