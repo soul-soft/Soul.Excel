@@ -13,25 +13,15 @@ namespace Soul.Excel
         public List<ExcelDataTable> Tables { get; } = new List<ExcelDataTable>();
 
         #region Wirte
-        private IWorkbook OpenWorkbook(bool isXlsx,Stream stream)
+        private IWorkbook OpenWorkbook(bool isXlsx, Stream stream)
         {
-            try
+            if (isXlsx)
             {
-                if (isXlsx)
-                {
-                    return new HSSFWorkbook(stream);
-                }
                 return new XSSFWorkbook(stream);
             }
-            catch (Exception)
-            {
-                if (isXlsx)
-                {
-                    return new XSSFWorkbook(stream);
-                }
-                return new HSSFWorkbook(stream);
-            }
+            return new HSSFWorkbook(stream);
         }
+
         public void Wirte(string file, bool isXlsx = false)
         {
             using (var fs = new FileStream(file, FileMode.Create))
@@ -45,11 +35,11 @@ namespace Soul.Excel
             IWorkbook document;
             if (isXlsx)
             {
-                document = new HSSFWorkbook();
+                document = new XSSFWorkbook();
             }
             else
             {
-                document = new XSSFWorkbook();
+                document = new HSSFWorkbook();
             }
             var defaultStyles = new DefaultExcelStyles(document);
             foreach (var item in Tables)
@@ -241,7 +231,7 @@ namespace Soul.Excel
         {
             var options = new ExcelReaderOptions();
             configure(options);
-            IWorkbook document = OpenWorkbook(options.IsXlsx, stream);            
+            IWorkbook document = OpenWorkbook(options.IsXlsx, stream);
             var table = new ExcelDataTable();
             var sheet = document.GetSheetAt(options.SheetIndex);
             var columnRow = sheet.GetRow(options.RowIndex);
@@ -288,7 +278,7 @@ namespace Soul.Excel
                 }
                 return cell.NumericCellValue;
             }
-            else if(cell.CellType == CellType.Formula)
+            else if (cell.CellType == CellType.Formula)
             {
                 return cell.CellFormula;
             }
@@ -308,7 +298,7 @@ namespace Soul.Excel
             {
                 return cell.ToString();
             }
-           
+
         }
         #endregion
 
@@ -338,7 +328,7 @@ namespace Soul.Excel
                 TitleStyle.VerticalAlignment = VerticalAlignment.Center;
                 TitleStyle.SetFont(font2);
             }
-            
+
             public static void InitStyle(ICellStyle style)
             {
                 style.BorderBottom = BorderStyle.Thin;
