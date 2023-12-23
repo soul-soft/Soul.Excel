@@ -15,7 +15,7 @@ namespace Soul.Excel
         {
             var document = new ExcelDocument();
             document.Tables.AddRange(tables);
-            document.Wirte(stream, true);
+            document.Wirte(stream, isXlsx);
         }
     }
 }
